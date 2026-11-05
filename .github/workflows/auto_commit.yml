@@ -1,0 +1,27 @@
+name: Auto Daily Contribution
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Git identity
+        run: |
+          git config --global user.name "Atech31"
+          git config --global user.email "abhishekahire2001@gmail.com"
+
+      - name: Make daily log update
+        run: |
+          echo "Automated daily contribution log entry on $(date)" >> daily_log.md
+          git add daily_log.md
+          git commit -m "docs: automated daily contribution update"
+          git push
